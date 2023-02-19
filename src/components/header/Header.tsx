@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-
 import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router-dom";
+import LanguageSelector from "./LanguageSelector";
 
 import {
   AppBar,
@@ -14,11 +15,8 @@ import {
   Toolbar,
   Button,
 } from "@mui/material";
-
 import MenuIcon from "@mui/icons-material/Menu";
 
-import { NavLink } from "react-router-dom";
-import LanguageSelector from "./LanguageSelector";
 interface Props {
   window?: () => Window;
 }
@@ -100,6 +98,7 @@ export default function Header(props: Props) {
             <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
               {navItems.map((item) => (
                 <NavLink
+                  key={item.link}
                   end
                   style={({ isActive }) => ({
                     color: isActive ? "#000" : "inherit",
@@ -107,9 +106,7 @@ export default function Header(props: Props) {
                   })}
                   to={item.link}
                 >
-                  <Button key={item.link} color="inherit">
-                    {item.name}
-                  </Button>
+                  <Button color="inherit">{item.name}</Button>
                 </NavLink>
               ))}
             </Box>

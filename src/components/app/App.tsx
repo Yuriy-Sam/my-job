@@ -8,14 +8,14 @@ import {
   Routes,
 } from "react-router-dom";
 import store from "../../store/Store";
-import HomePage from "../../pages/HomePage";
-import NewsPage from "../../pages/NewsPage";
 import Login from "../login/Login";
 import "./App.scss";
 
 import { Provider } from "react-redux";
-import ProfilePage from "../../pages/ProfilePage";
 import Header from "../header/Header";
+import Profile from "../profile/Profile";
+import NewsList from "../newsList/NewsList";
+import Main from "../main/Main";
 
 function App() {
   return (
@@ -27,10 +27,10 @@ function App() {
             <Header />
             <main>
               <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/news" element={<NewsPage />} />
+                <Route path="/" element={<Main />} />
+                <Route path="/news" element={<NewsList />} />
                 {JSON.parse(localStorage.getItem("auth")!) ? (
-                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/profile" element={<Profile />} />
                 ) : (
                   <Route path="/auth" element={<Login />} />
                 )}

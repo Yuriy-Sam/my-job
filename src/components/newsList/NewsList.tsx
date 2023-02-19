@@ -1,17 +1,23 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/Store";
 import { fetchNews, deleteNews, setCurrentPage } from "../../store/NewsSlice";
-import { Button, Card, Container, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  Container,
+  Grid,
+  Typography,
+  CircularProgress,
+  Box,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Delete } from "@mui/icons-material";
 
 const NewsList = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { news, hasMore, currentPage } = useSelector(
+  const { news, hasMore, currentPage, status } = useSelector(
     (state: RootState) => state.news
   );
-  // const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (news.length === 0) {
@@ -20,8 +26,8 @@ const NewsList = () => {
   }, []);
 
   const handleLoadMore = async () => {
-    dispatch(setCurrentPage(currentPage + 1));
     dispatch(fetchNews(currentPage + 1));
+    dispatch(setCurrentPage(currentPage + 1));
   };
 
   const handleDeleteNews = (id: number) => {
@@ -80,6 +86,12 @@ const NewsList = () => {
             </Card>
           </Grid>
         ))}
+
+        {status === "loading" ? (
+          <Box sx={{ margin: "0 auto", marginY: 7 }}>
+            <CircularProgress size={100} />
+          </Box>
+        ) : null}
         {hasMore && (
           <Grid item xs={12}>
             <Button

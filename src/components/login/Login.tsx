@@ -18,7 +18,6 @@ function Login() {
     const data = new FormData(event.currentTarget);
     const username = data.get("username");
     const password = data.get("password");
-    console.log(window.location.origin + window.location.pathname + "/profile");
     if (username === "admin" && password === "12345") {
       localStorage.setItem("auth", JSON.stringify(true));
       // window.location.hash = "";
