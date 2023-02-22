@@ -7,26 +7,27 @@ import {
   AppBar,
   Box,
   CssBaseline,
-  Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
   Toolbar,
   Button,
+  Drawer,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import DrawerMenu from "./Drawer";
 
 interface Props {
   window?: () => Window;
 }
 
-const drawerWidth = 240;
-
 export default function Header(props: Props) {
   const { window } = props;
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [auth, setAuth] = useState(JSON.parse(localStorage.getItem("auth")!));
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+  const drawerWidth = 240;
+
   useEffect(() => {
     setAuth(JSON.parse(localStorage.getItem("auth")!));
   }, [JSON.parse(localStorage.getItem("auth")!)]);
@@ -43,35 +44,6 @@ export default function Header(props: Props) {
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item.link} disablePadding>
-            <ListItemButton
-              sx={{
-                textAlign: "center",
-              }}
-            >
-              <NavLink
-                end
-                style={({ isActive }) => ({
-                  color: isActive ? "blue" : "#000",
-                })}
-                to={item.link}
-              >
-                {item.name}
-              </NavLink>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -131,7 +103,9 @@ export default function Header(props: Props) {
             },
           }}
         >
-          {drawer}
+          <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+            <DrawerMenu navItems={navItems} />
+          </Box>
         </Drawer>
       </Box>
     </Box>
